@@ -61,7 +61,7 @@ pipeline {
                 sh  '''
                     
                     # Clean up
-                    docker stop ${app_name}
+                    # docker stop ${app_name}
                 
                     '''
                 }
