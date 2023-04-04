@@ -33,7 +33,7 @@ pipeline {
                     docker build -t ${app_name} .
                     
                     # Start app container
-                    docker run --rm -d -p ${app_port}:8000 --name ${app_name} ${app_name}
+                    docker run --rm -d -p ${app_port}:${app_port} --name ${app_name} ${app_name}
                     
                     # Wait for app conatiner to start
                     sleep 10s
