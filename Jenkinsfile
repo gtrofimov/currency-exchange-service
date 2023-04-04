@@ -30,7 +30,7 @@ pipeline {
                     docker stop ${app_name} || true
                     
                     # Build app container
-                    docker build -t ${app_name} .
+                    docker build --no-cache -t ${app_name} .
                     
                     # Start app container
                     docker run --rm -d -p ${app_port}:${app_port} --network=demo-net --name ${app_name} ${app_name}
