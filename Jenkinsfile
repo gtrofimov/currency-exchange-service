@@ -6,7 +6,7 @@ pipeline {
     }
     environment {
         // vars
-        app_name="currency_exchange_service"
+        app_name="exchange"
         app_port=8000
     }
     stages {
