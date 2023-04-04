@@ -36,7 +36,7 @@ pipeline {
                     docker run --rm -d -p ${app_port}:${app_port} --network=demo-net --name ${app_name} ${app_name}
                     
                     # Wait for app conatiner to start
-                    sleep 10s
+                    sleep 15s
                 
                     '''
                 }
