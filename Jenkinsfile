@@ -40,7 +40,7 @@ pipeline {
                     license.network.password=${ls_pass}" >> jtest/jtestcli.properties
                     
                     # Debug: Print jtestcli.properties file
-                    cat jenkins/jtest/jtestcli.properties
+                    cat jtest/jtestcli.properties
 
                     # Run Maven build with Jtest tasks via Docker
                     docker run --rm -i \
