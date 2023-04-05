@@ -8,6 +8,11 @@ pipeline {
         // vars
         app_name="exchange"
         app_port=8000
+
+        // Parasoft Licenses
+        ls_url="${PARASOFT_LS_URL}"
+        ls_user="${PARASOFT_LS_USER}"
+        ls_pass="${PARASOFT_LS_PASS}"
     }
     stages {
         stage('Build') {
@@ -16,8 +21,44 @@ pipeline {
                 sh  '''
 
                     # Build the Maven project
-                    mvn clean package
-                
+                    # mvn clean package
+                    
+                    # Build with Jtest SA/UT/monitor
+
+                    # Create Folder for monitor
+                    mkdir monitor
+
+                    # Set Up and write .properties file
+                    echo $"
+                    parasoft.eula.accepted=true
+                    jtest.license.use_network=true
+                    jtest.license.network.edition=server_edition
+                    license.network.use.specified.server=true
+                    license.network.auth.enabled=true
+                    license.network.url=${ls_url}
+                    license.network.user=${ls_user}
+                    license.network.password=${ls_pass}" >> jtest/jtestcli.properties
+                    
+                    # Debug: Print jtestcli.properties file
+                    cat jenkins/jtest/jtestcli.properties
+
+                    # Run Maven build with Jtest tasks via Docker
+                    docker run --rm -i \
+                    -u 0:0 \
+                    -v "$PWD:$PWD" \
+                    -w "$PWD" \
+                    $(docker build -q ./jtest) /bin/bash -c " \
+                    mvn \
+                    -DskipTests=true \
+                    package jtest:monitor \
+                    -s /home/parasoft/.m2/settings.xml \
+                    -Djtest.settings='/home/parasoft/jtestcli.properties'; \
+                    "
+
+                    # Unzip monitor.zip
+                    unzip **/target/*/*/monitor.zip -d .
+                    ls -la monitor
+                    
                     '''
                 }
             }
