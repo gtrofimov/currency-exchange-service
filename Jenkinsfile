@@ -86,7 +86,13 @@ pipeline {
                     docker build --no-cache -t ${app_name} .
                     
                     # Start app container
-                    docker run --rm -d -p ${app_port}:${app_port} --network=demo-net --name ${app_name} ${app_name}
+                    docker run --rm -d \
+                    -p ${app_port}:${app_port} \
+                    -p 8050:8050 \
+                    --env-file "$PWD/jtest/monitor.env" \
+                    -v "$PWD/monitor:/jtest/monitor" \
+                    --network=demo-net \
+                    --name ${app_name} ${app_name}
                     
                     # Wait for app conatiner to start
                     sleep 15s
