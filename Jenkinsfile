@@ -26,7 +26,7 @@ pipeline {
                     # Build with Jtest SA/UT/monitor
 
                     # Create Folder for monitor
-                    mkdir monitor
+                    mkdir monitor | true
 
                     # Set Up and write .properties file
                     echo $"
