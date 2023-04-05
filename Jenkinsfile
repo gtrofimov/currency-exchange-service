@@ -24,7 +24,7 @@ pipeline {
             steps {
                 // Clean before build
                 cleanWs()
-                // We need to explicitly checkout from SCM here
+                // Checkout project
                 checkout scm
                 
                 echo "Building ${env.JOB_NAME}..."
@@ -32,10 +32,10 @@ pipeline {
                 sh  '''
                     
 
-                    # Build the Maven project
+                    # Build the Maven package
                     # mvn clean package
                     
-                    # Build with Jtest SA/UT/monitor
+                    # Build the Maven package with Jtest Coverage Agent
 
                     # Create Folder for monitor
                     mkdir monitor | true
@@ -69,7 +69,7 @@ pipeline {
 
                     # Unzip monitor.zip
                     unzip target/*/*/monitor.zip -d .
-                    ls -la monitor
+                    # ls -la monitor
                     
                     '''
                 }
@@ -113,7 +113,7 @@ pipeline {
                     curl -iv --raw http://localhost:8050/status
                     
                     # cov-tool
-                
+                    
                     '''
                 }
             }
