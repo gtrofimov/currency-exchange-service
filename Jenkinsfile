@@ -10,7 +10,7 @@ pipeline {
     
     }
     environment {
-        // vars
+        // Application Config
         app_name="exchange"
         app_port=8000
 
@@ -18,6 +18,9 @@ pipeline {
         ls_url="${PARASOFT_LS_URL}"
         ls_user="${PARASOFT_LS_USER}"
         ls_pass="${PARASOFT_LS_PASS}"
+
+        // Parasoft Covarge Agent
+        cov_port=8051
     }
     stages {
         stage('Build') {
@@ -88,7 +91,7 @@ pipeline {
                     # Start app container
                     docker run --rm -d \
                     -p ${app_port}:${app_port} \
-                    -p 8050:8050 \
+                    -p ${cov_port}:8050 \
                     -v "$PWD/monitor:/monitor" \
                     --env-file "$PWD/jtest/monitor.env" \
                     --network=demo-net \
@@ -105,15 +108,16 @@ pipeline {
             steps {
                 // test the project
                 sh  '''
-
+                    # Test the Agent
+                    curl -iv --raw http://localhost:${cov_port}/status
+                    
                     # Test the App
                     curl -iv --raw http://localhost:${app_port}/currency-exchange/from/EUR/to/INR
                     
-                    # Test the Agent
-                    curl -iv --raw http://localhost:8050/status
+
                     
                     # cov-tool
-                    
+
                     '''
                 }
             }
