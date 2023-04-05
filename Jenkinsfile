@@ -4,6 +4,11 @@ pipeline {
         maven 'maven'
         jdk 'JDK 17'
     }
+    options {
+        // This is required if you want to clean before build
+        skipDefaultCheckout(true)
+    
+    }
     environment {
         // vars
         app_name="exchange"
@@ -17,8 +22,15 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                // Clean before build
+                cleanWs()
+                // We need to explicitly checkout from SCM here
+                checkout scm
+                
+                echo "Building ${env.JOB_NAME}..."
                 // build the project
                 sh  '''
+                    
 
                     # Build the Maven project
                     # mvn clean package
