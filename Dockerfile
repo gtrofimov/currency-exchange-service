@@ -8,5 +8,6 @@ COPY /target/currency-exchange-service-0.0.1-SNAPSHOT.jar /app/currency-exchange
 
 EXPOSE 8000 8050
 
-#ENTRYPOINT ["java", "-jar", "currency-exchange-service.jar"]
-ENTRYPOINT [ "tail", "-f", "/dev/null" ]
+# ENTRYPOINT ["java", "-jar", "currency-exchange-service.jar"]
+# ENTRYPOINT [ "tail", "-f", "/dev/null" ]
+ENTRYPOINT exec java $JAVA_OPTS -jar currency-exchange-service.jar
