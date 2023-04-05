@@ -90,7 +90,7 @@ pipeline {
                     -p ${app_port}:${app_port} \
                     -p 8050:8050 \
                     --env-file "$PWD/jtest/monitor.env" \
-                    -v "$PWD/monitor:/jtest/monitor" \
+                    -v "$PWD/monitor:/monitor" \
                     --network=demo-net \
                     --name ${app_name} ${app_name}
                     
