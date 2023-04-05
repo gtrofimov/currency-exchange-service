@@ -56,7 +56,7 @@ pipeline {
                     "
 
                     # Unzip monitor.zip
-                    unzip **/target/*/*/monitor.zip -d .
+                    unzip target/*/*/monitor.zip -d .
                     ls -la monitor
                     
                     '''
