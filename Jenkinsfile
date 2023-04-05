@@ -108,7 +108,10 @@ pipeline {
 
                     # Test the App
                     curl -iv --raw http://localhost:${app_port}/currency-exchange/from/EUR/to/INR
-
+                    
+                    # Test the Agent
+                    curl -iv --raw http://localhost:8050/status
+                    
                     # cov-tool
                 
                     '''
