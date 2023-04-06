@@ -112,13 +112,13 @@ pipeline {
                     curl -iv --raw http://localhost:${cov_port}/status
 
                     # Start the Test
-                    curl -iv --raw http://localhost:${cov_port}/test/start/jenkins_test_${currentBuild.number}
+                    curl -iv --raw http://localhost:${cov_port}/test/start/jenkinsTest${env.BUILD_NUMBER}
 
                     # Test the App
                     curl -iv --raw http://localhost:${app_port}/currency-exchange/from/EUR/to/INR
                                         
                     # Stop the Test
-                    curl -iv --raw http://localhost:${cov_port}/test/stop/jenkins_test_${currentBuild.number}
+                    curl -iv --raw http://localhost:${cov_port}/test/stop/jenkinsTest${env.BUILD_NUMBER}
 
                     # Downlaod the cov file
                     # ~~ dont need to becasue mounted
