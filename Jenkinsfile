@@ -106,19 +106,19 @@ pipeline {
         stage('Test') {
             steps {
                 // start cov agent session and test
-                sh  """
+                sh  '''
                 
                     # Test the Agent
                     curl -iv --raw http://localhost:${cov_port}/status
 
                     # Start the Test
-                    curl -iv --raw http://localhost:${cov_port}/test/start/jenkinsTest${env.BUILD_NUMBER}
+                    curl -iv --raw http://localhost:${cov_port}/test/start/jenkinsTest${BUILD_NUMBER}
 
                     # Test the App
                     curl -iv --raw http://localhost:${app_port}/currency-exchange/from/EUR/to/INR
                                         
                     # Stop the Test
-                    curl -iv --raw http://localhost:${cov_port}/test/stop/jenkinsTest${env.BUILD_NUMBER}
+                    curl -iv --raw http://localhost:${cov_port}/test/stop/jenkinsTest${BUILD_NUMBER}
 
                     # Downlaod the cov file
                     # ~~ dont need to becasue mounted
@@ -137,7 +137,7 @@ pipeline {
                     -property report.coverage.images="${app_name}-ComponentTests" \
                     -property session.tag="ComponentTests"
 
-                    """
+                    '''
 
                    }
             }
