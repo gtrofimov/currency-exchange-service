@@ -103,23 +103,53 @@ pipeline {
                     '''
                 }
             }
-            
+
         stage('Test') {
             steps {
-                // test the project
+                // start cov agent session and test
                 sh  '''
+
                     # Test the Agent
                     curl -iv --raw http://localhost:${cov_port}/status
-                    
-                    # Test the App
-                    curl -iv --raw http://localhost:${app_port}/currency-exchange/from/EUR/to/INR
-                    
 
-                    
-                    # cov-tool
+                    # Start the Test
+                    curl -iv --raw http://localhost:${cov_port}/test/start/jenkins_test_${currentBuild.number}
 
                     '''
+
+                // test the project
+                sh  '''
+
+                    # Test the App
+                    curl -iv --raw http://localhost:${app_port}/currency-exchange/from/EUR/to/INR
+                                        
+                    '''
                 }
+                // stop the test
+                sh  '''
+                    # Stop the Test
+                    curl -iv --raw http://localhost:${cov_port}/test/stop/jenkins_test_${currentBuild.number}
+
+                    '''
+                // generate report
+                sh  '''
+                    # Downlaod the cov file
+                    # ~~ dont need to becasue mounted
+
+                    # run Jtest to generate report
+                    docker run --rm -i \
+                    -u 0:0 \
+                    -v "$PWD:$PWD" \
+                    -w "$PWD" \
+                    $(docker build -q ./jtest) \
+                    jtestcli \
+                    -settings /home/parasoft/jtestcli.properties \
+                    -staticcoverage "monitor/static_coverage.xml" \
+                    -runtimecoverage "monitor/runtime_coverage" \
+                    -config "jtest/CalculateApplicationCoverage.properties" \
+                    -property report.coverage.images="${app_name}-ComponentTests" \
+                    -property session.tag="ComponentTests"
+                    '''
             }
         stage('Release') {
             steps {
