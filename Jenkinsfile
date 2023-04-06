@@ -103,7 +103,6 @@ pipeline {
                     '''
                 }
             }
-
         stage('Test') {
             steps {
                 // start cov agent session and test
@@ -124,7 +123,6 @@ pipeline {
                     curl -iv --raw http://localhost:${app_port}/currency-exchange/from/EUR/to/INR
                                         
                     '''
-                }
                 // stop the test
                 sh  '''
                     # Stop the Test
