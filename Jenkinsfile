@@ -106,8 +106,8 @@ pipeline {
         stage('Test') {
             steps {
                 // start cov agent session and test
-                sh  '''
-
+                sh  """
+                
                     # Test the Agent
                     curl -iv --raw http://localhost:${cov_port}/status
 
@@ -137,8 +137,9 @@ pipeline {
                     -property report.coverage.images="${app_name}-ComponentTests" \
                     -property session.tag="ComponentTests"
 
-                    '''
-                }
+                    """
+
+                   }
             }
         stage('Release') {
             steps {
