@@ -105,24 +105,27 @@ pipeline {
             }
         stage('Test') {
             steps {
+
                 // start cov agent session and test
                 sh  '''
-                
                     # Test the Agent
                     curl -iv --raw http://localhost:${cov_port}/status
-
+                    
                     # Start the Test
                     curl -iv --raw http://localhost:${cov_port}/test/start/jenkinsTest${BUILD_NUMBER}
+                    '''
 
+                // run tests    
+                sh  '''    
                     # Test the App
                     curl -iv --raw http://localhost:${app_port}/currency-exchange/from/EUR/to/INR
-                                        
+                    '''
+                
+                // stop cob agent session and generate report
+                sh  '''
                     # Stop the Test
-                    curl -iv --raw http://localhost:${cov_port}/test/stop/jenkinsTest${BUILD_NUMBER}
-
-                    # Downlaod the cov file
-                    # ~~ dont need to becasue mounted
-
+                    curl -iv --raw http://localhost:${cov_port}/session/stop
+                
                     # run Jtest to generate report
                     docker run --rm -i \
                     -u 0:0 \
@@ -138,7 +141,6 @@ pipeline {
                     -property session.tag="ComponentTests"
 
                     '''
-
                    }
             }
         stage('Release') {
