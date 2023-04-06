@@ -136,7 +136,7 @@ pipeline {
                     -config "jtest/CalculateApplicationCoverage.properties" \
                     -property report.coverage.images="${app_name}-ComponentTests" \
                     -property session.tag="ComponentTests"
-                    
+
                     '''
             }
         stage('Release') {
@@ -150,6 +150,7 @@ pipeline {
                     '''
                 }
             }
+        }
     }
 
 }
