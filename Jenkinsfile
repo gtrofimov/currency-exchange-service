@@ -138,6 +138,7 @@ pipeline {
                     -property session.tag="ComponentTests"
 
                     '''
+                }
             }
         stage('Release') {
             steps {
@@ -150,7 +151,5 @@ pipeline {
                     '''
                 }
             }
-        }
     }
-
 }
