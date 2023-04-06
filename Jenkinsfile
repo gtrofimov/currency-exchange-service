@@ -27,11 +27,12 @@ pipeline {
             steps {
                 // Clean before build
                 cleanWs()
+                
                 // Checkout project
                 checkout scm
-                
+
+                // build the project                
                 echo "Building ${env.JOB_NAME}..."
-                // build the project
                 sh  '''
                     
 
