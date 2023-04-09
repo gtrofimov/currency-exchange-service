@@ -156,8 +156,11 @@ pipeline {
                     '''
                 }
             }
-        post {
+        
+    }
+    post {
             always {
                 archiveArtifacts artifacts: 'monitor/static_coverage_*.xml', onlyIfSuccessful: true
-    }
+            }
+        }
 }
