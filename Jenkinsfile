@@ -73,6 +73,7 @@ pipeline {
 
                     # Unzip monitor.zip
                     unzip target/*/*/monitor.zip -d .
+                    cp monitor/static_covarge.xml monitor/static_coevarge_${cov_port}.xml
                     # ls -la monitor
                     
                     '''
@@ -155,5 +156,8 @@ pipeline {
                     '''
                 }
             }
+        post {
+            always {
+                archiveArtifacts artifacts: 'monitor/static_coverage_*.xml', onlyIfSuccessful: true
     }
 }
