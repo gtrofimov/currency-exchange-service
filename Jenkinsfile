@@ -73,7 +73,7 @@ pipeline {
 
                     # Unzip monitor.zip
                     unzip target/*/*/monitor.zip -d .
-                    cp monitor/static_covarge.xml monitor/static_coevarge_${cov_port}.xml
+                    cp monitor/static_coverage.xml monitor/static_coverage_${cov_port}.xml
                     # ls -la monitor
                     
                     '''
