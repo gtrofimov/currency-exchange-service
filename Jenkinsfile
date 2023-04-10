@@ -74,7 +74,6 @@ pipeline {
                     # Unzip monitor.zip
                     unzip target/*/*/monitor.zip -d .
                     cp monitor/static_coverage.xml monitor/static_coverage_${cov_port}.xml
-                    # ls -la monitor
                     
                     '''
                 }
@@ -123,7 +122,7 @@ pipeline {
                     curl -iv --raw http://localhost:${app_port}/currency-exchange/from/EUR/to/INR
                     '''
                 
-                // stop cob agent session and generate report
+                // stop cov agent session and generate report
                 sh  '''
                     # Stop the Test
                     curl -iv --raw http://localhost:${cov_port}/session/stop
