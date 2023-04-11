@@ -116,11 +116,14 @@ pipeline {
                     curl -iv --raw http://localhost:${cov_port}/test/start/jenkinsTest${BUILD_NUMBER}
                     '''
 
-                // run tests    
+                // run component tests
                 sh  '''    
                     # Test the App
                     curl -iv --raw http://localhost:${app_port}/currency-exchange/from/EUR/to/INR
                     '''
+                
+                // run e2e test job
+                // build job: 'currency-e2e-tests', propagate: true, wait: true
                 
                 // stop cov agent session and generate report
                 sh  '''
