@@ -131,8 +131,9 @@ pipeline {
                     docker run --rm -i \
                     -u 0:0 \
                     -v "$PWD:$PWD" \
+                    -v "$PWD/jtest/jtestcli.properties:/home/parasoft/jtestcli.properties" \
                     -w "$PWD" \
-                    $(docker build -q ./jtest) \
+                    parasoft/jtest \
                     jtestcli \
                     -settings /home/parasoft/jtestcli.properties \
                     -staticcoverage "monitor/static_coverage.xml" \
