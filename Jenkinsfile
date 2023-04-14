@@ -60,7 +60,7 @@ pipeline {
 
                     # Run Maven build with Jtest tasks via Docker
                     docker run --rm -i \
-                    -u jenkins:jenkins \
+                    -u parasoft:parasoft \
                     -v "$PWD:$PWD" \
                     -w "$PWD" \
                     $(docker build -q ./jtest) /bin/bash -c " \
@@ -130,7 +130,7 @@ pipeline {
                 
                     # run Jtest to generate report
                     docker run --rm -i \
-                    -u parasoft:parasoft \
+                    -u 0:0 \
                     -v "$PWD:$PWD" \
                     -v "$PWD/jtest/jtestcli.properties:/home/parasoft/jtestcli.properties" \
                     -w "$PWD" \
