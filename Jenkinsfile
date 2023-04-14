@@ -130,7 +130,7 @@ pipeline {
                 
                     # run Jtest to generate report
                     docker run --rm -i \
-                    -u 0:0 \
+                    -u parasoft:parasoft \
                     -v "$PWD:$PWD" \
                     -v "$PWD/jtest/jtestcli.properties:/home/parasoft/jtestcli.properties" \
                     -w "$PWD" \
