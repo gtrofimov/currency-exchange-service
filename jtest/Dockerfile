@@ -21,6 +21,7 @@ COPY jtestcli.properties /home/parasoft/jtestcli.properties
 COPY .m2 /home/parasoft/.m2
 
 ## Fix permissions
+RUN groupadd jenkins && \ useradd -ms /bin/bash jenkins -g jenkins
 RUN chown -R parasoft:parasoft .
 
 ## Switch user back and configure MVN

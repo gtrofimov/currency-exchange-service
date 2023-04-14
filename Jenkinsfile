@@ -60,7 +60,7 @@ pipeline {
 
                     # Run Maven build with Jtest tasks via Docker
                     docker run --rm -i \
-                    -u 0:0 \
+                    -u jenkins:jenkins \
                     -v "$PWD:$PWD" \
                     -w "$PWD" \
                     $(docker build -q ./jtest) /bin/bash -c " \
@@ -107,6 +107,7 @@ pipeline {
         stage('Test') {
             steps {
 
+                // run component tests with cov
                 // start cov agent session and test
                 sh  '''
                     # Test the Agent
@@ -121,9 +122,6 @@ pipeline {
                     # Test the App
                     curl -iv --raw http://localhost:${app_port}/currency-exchange/from/EUR/to/INR
                     '''
-                
-                // run e2e test job
-                // build job: 'currency-e2e-tests', propagate: true, wait: true
                 
                 // stop cov agent session and generate report
                 sh  '''
@@ -146,6 +144,9 @@ pipeline {
                     -property session.tag="ComponentTests"
 
                     '''
+                // run e2e test job
+                // build job: 'currency-e2e-tests', propagate: true, wait: true
+                
                    }
             }
         stage('Release') {
@@ -164,6 +165,11 @@ pipeline {
     post {
             always {
                 archiveArtifacts artifacts: 'monitor/static_coverage_*.xml', onlyIfSuccessful: true
+            
+            sh  ''' 
+                rm -rf ".jtest/cache"                
+                rm -rf "*/*/*/.jtest/cache" 
+                '''
             }
         }
 }
