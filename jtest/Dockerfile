@@ -17,15 +17,16 @@ RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
 
 
 ## Copy Deps
-COPY jtestcli.properties /home/parasoft/jtestcli.properties
+# COPY jtestcli.properties /home/parasoft/jtestcli.properties
 COPY .m2 /home/parasoft/.m2
 
 ## Fix permissions
-# RUN groupadd jenkins && \ useradd -ms /bin/bash jenkins -g jenkins
-RUN chown -R parasoft:parasoft .
+RUN groupadd jenkins
+RUN useradd -ms /bin/bash jenkins -g jenkins
+RUN chown -R jenkins:jenkins .
 
 ## Switch user back and configure MVN
-USER parasoft:parasoft
+USER jenkins:jenkins
 ENV MAVEN_HOME /usr/share/maven
 ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
 
