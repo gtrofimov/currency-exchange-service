@@ -130,7 +130,7 @@ pipeline {
                 
                     # run Jtest to generate report
                     docker run --rm -i \
-                    -u 0:0 \
+                    -u 995:991 \
                     -v "$PWD:$PWD" \
                     -w "$PWD" \
                     parasoft/jtest \
